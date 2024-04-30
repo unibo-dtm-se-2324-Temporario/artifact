@@ -1,7 +1,6 @@
 package com.example.temporario.Login
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.temporario.R
 import com.example.temporario.databinding.ActivityMainBinding

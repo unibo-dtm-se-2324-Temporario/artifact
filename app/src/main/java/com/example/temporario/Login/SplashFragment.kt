@@ -53,9 +53,8 @@ class SplashFragment : Fragment() {
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, LoginFragment::class.java, null)
+                    .replace(R.id.fragment_container, LoginFragment::class.java, null)
                     .commit()
-
             }
 
             override fun onTransitionTrigger(
