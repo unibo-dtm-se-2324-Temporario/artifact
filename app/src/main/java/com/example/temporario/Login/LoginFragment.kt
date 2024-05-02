@@ -19,6 +19,9 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 
 
 class LoginFragment : Fragment() {
@@ -31,10 +34,11 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val user: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(requireContext())
+        val user = firebaseAuth.currentUser
         Log.d("LoginFragment", "User: $user")
+        Toast.makeText(context, "Hello ${user!!.displayName}", Toast.LENGTH_SHORT).show()
         if (user != null) {
-            goToHome()
+            goToHome(user)
         }
     }
     override fun onCreateView(
@@ -51,10 +55,11 @@ class LoginFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         googleSignIn = binding.signInButton
         gSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.SERVER_CLIENT_WEB))
             .requestEmail()
             .build()
-        gSignInClient = GoogleSignIn.getClient(requireContext(), gSignInOptions)
 
+        gSignInClient = GoogleSignIn.getClient(requireContext(), gSignInOptions)
 
         binding.clickToRegister.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
@@ -77,21 +82,33 @@ class LoginFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
        if (requestCode == 1000) {
-           val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+           val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
            try {
-               task.getResult(ApiException::class.java)
-               goToHome()
+               val account: GoogleSignInAccount? = task.getResult(ApiException::class.java)
+
+               val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+               firebaseAuth.signInWithCredential(credential)
+                   .addOnCompleteListener {
+                       if (it.isSuccessful) {
+                           val user: FirebaseUser = firebaseAuth.currentUser!!
+                           goToHome(user)
+                       } else {
+                           // no
+                       }
+                   }
+
            } catch (e: Exception) {
                Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
            }
        }
     }
 
-    private fun goToHome() {
+    private fun goToHome(user: FirebaseUser) {
         val intent = Intent(requireContext(), HomeActivity::class.java)
+        intent.putExtra("FirebaseUser", user)
         // TODO: sa mut signoutul in Home
-        gSignInClient.signOut()
+        //gSignInClient.signOut()
         startActivity(intent)
     }
 
