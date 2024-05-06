@@ -2,20 +2,21 @@ package com.example.temporario.Home
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.example.temporario.Event
-import com.example.temporario.EventsRepository
+import com.example.temporario.Events.CustomAdapter
+import com.example.temporario.Events.Event
+import com.example.temporario.Events.EventsRepository
+import com.example.temporario.Login.LoginFragment
 import com.example.temporario.R
-import com.example.temporario.databinding.FragmentPopUpBinding
+import com.example.temporario.databinding.FragmentListEventsBinding
 
-class PopUpFragment : Fragment() {
+class ListEventsFragment : Fragment() {
 
-    private lateinit var binding: FragmentPopUpBinding
+    private lateinit var binding: FragmentListEventsBinding
     lateinit var customAdapter: CustomAdapter
     val repo = EventsRepository()
     var eventsOfUser: List<Event>? = ArrayList()
@@ -25,7 +26,7 @@ class PopUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentPopUpBinding.inflate(inflater, container, false)
+        binding = FragmentListEventsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,7 +50,15 @@ class PopUpFragment : Fragment() {
             }
         }
 
-
+//        binding.addEvent.setOnClickListener {
+//
+//            val bundle = Bundle()
+//            bundle.putInt("Day", curr)
+//
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .add(R.id.fragment_container, CreateEventFragment::class.java, null)
+//                .commit()
+//        }
 
     }
 

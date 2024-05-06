@@ -1,6 +1,5 @@
-package com.example.temporario.Home
+package com.example.temporario.Events
 
-import com.example.temporario.Event
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.temporario
+package com.example.temporario.Events
 
 import java.time.LocalDateTime
 import java.util.Date

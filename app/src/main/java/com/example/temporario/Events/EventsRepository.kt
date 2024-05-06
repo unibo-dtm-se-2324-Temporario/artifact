@@ -1,7 +1,6 @@
-package com.example.temporario
+package com.example.temporario.Events
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -45,7 +44,6 @@ class EventsRepository {
             }
         })
     }
-
     fun getEventsFromDB (uid: String, callback: (List<Event>) -> Unit) {
         val eventsList = mutableListOf<Event>()
 
@@ -79,9 +77,9 @@ class EventsRepository {
             }
         })
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getEventsByDate (events: List<Event>, day:Int, month: Int, year: Int, callback: (List<Event>) -> Unit) {
+    fun getEventsByDate (events: List<Event>, day:Int, month: Int, year: Int,
+                         callback: (List<Event>) -> Unit) {
         val todayEvents = mutableListOf<Event>()
         for (event in events) {
             val startTime = event.startTime
@@ -95,6 +93,28 @@ class EventsRepository {
 
         callback(todayEvents)
     }
+    fun addEventToDB (uid: String, description: String, startTime: LocalDateTime, duration: Int,
+                      callback: (Int) -> Unit) {
+        val eventsReference = database.child("Events")
+        var key: Int = 0
+        eventsReference.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                key = snapshot.childrenCount.toInt()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //
+            }
+        })
+        val event = Event(key, uid, description, startTime, duration)
+        eventsReference.child(key.toString()).setValue(event).addOnSuccessListener {
+            callback(1)
+        }.addOnFailureListener {
+            callback(0)
+        }
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime(str: String): LocalDateTime {
         val jsonObj = JSONObject(str)

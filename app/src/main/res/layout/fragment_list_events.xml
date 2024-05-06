@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#685E6A"
+    android:background="@drawable/fragment_background"
     android:layout_gravity="center"
     android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Home.PopUpFragment">
+    tools:context=".Home.ListEventsFragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,5 +29,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

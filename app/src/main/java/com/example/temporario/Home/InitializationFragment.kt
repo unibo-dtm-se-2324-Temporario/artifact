@@ -2,20 +2,18 @@ package com.example.temporario.Home
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.example.temporario.Event
+import com.example.temporario.Events.Event
 import com.example.temporario.R
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
-import java.util.Date
 
 class InitializationFragment : Fragment() {
 
@@ -50,7 +48,7 @@ class InitializationFragment : Fragment() {
                 userUID = "Y3Uh0J00ibaSbBWC4NGwxv3yo473"
             }
             val event = Event(eventId, userUID,"event nr $eventId", date, i + 1)
-            Log.d("Database reference", "${database.child("Events")}")
+//            Log.d("Database reference", "${database.child("Events")}")
             database.child("Events").child(eventId.toString()).setValue(event).addOnSuccessListener {
                 Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {

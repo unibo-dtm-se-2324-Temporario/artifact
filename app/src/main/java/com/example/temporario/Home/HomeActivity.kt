@@ -2,21 +2,15 @@ package com.example.temporario.Home
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.listeners.OnCalendarDayClickListener
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener
-import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
-import com.example.temporario.Event
-import com.example.temporario.EventsRepository
+import com.example.temporario.Events.Event
+import com.example.temporario.Events.EventsRepository
 import com.example.temporario.R
 import com.example.temporario.databinding.ActivityHomeBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import java.util.Calendar
 
 class HomeActivity: AppCompatActivity() {
@@ -36,6 +30,13 @@ class HomeActivity: AppCompatActivity() {
         calendarView = binding.calendar
         renderEvents(userUID!!)
         setEventListeners()
+
+        binding.addEvent.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_create, CreateEventFragment::class.java, null)
+                .commit()
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,7 +86,7 @@ class HomeActivity: AppCompatActivity() {
                 bundle.putInt("Month", selectedMonth)
                 bundle.putInt("Year", selectedYear)
 
-                val fragment = PopUpFragment()
+                val fragment = ListEventsFragment()
                 fragment.arguments = bundle
 
                 supportFragmentManager.beginTransaction()
