@@ -1,0 +1,57 @@
+package com.example.temporario.Home
+
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import com.example.temporario.Event
+import com.example.temporario.EventsRepository
+import com.example.temporario.R
+import com.example.temporario.databinding.FragmentPopUpBinding
+
+class PopUpFragment : Fragment() {
+
+    private lateinit var binding: FragmentPopUpBinding
+    lateinit var customAdapter: CustomAdapter
+    val repo = EventsRepository()
+    var eventsOfUser: List<Event>? = ArrayList()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentPopUpBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val currentDay = arguments?.getInt("Day")
+        val currentMonth = arguments?.getInt("Month")
+        val currentYear = arguments?.getInt("Year")
+
+        customAdapter = CustomAdapter(requireContext()) { }
+        binding.eventsList.adapter = customAdapter
+
+        eventsOfUser = (activity as? HomeActivity)?.eventsList
+
+        if (!eventsOfUser?.isEmpty()!!) {
+            repo.getEventsByDate(eventsOfUser!!, currentDay!!, currentMonth!!, currentYear!!) { list ->
+                customAdapter.update(list)
+//                Log.d("Nr of events", "$list.size")
+            }
+        }
+
+
+
+    }
+
+
+}

@@ -2,5 +2,5 @@
     <string name="app_name">Temporario</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="SERVER_CLIENT_ID">638207252465-dkdk2fthu3fko07i71aeorr3e5a7k9ic.apps.googleusercontent.com</string>
+    <string name="SERVER_CLIENT_WEB">728855260697-da3b1ei9r83r5apbb7rlmih1knerngel.apps.googleusercontent.com</string>
 </resources>

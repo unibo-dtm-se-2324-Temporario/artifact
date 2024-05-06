@@ -35,8 +35,8 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val user = firebaseAuth.currentUser
-        Log.d("LoginFragment", "User: $user")
-        Toast.makeText(context, "Hello ${user!!.displayName}", Toast.LENGTH_SHORT).show()
+        //Log.d("LoginFragment", "User: $user")
+        //Toast.makeText(context, "Hello ${user!!.displayName}", Toast.LENGTH_SHORT).show()
         if (user != null) {
             goToHome(user)
         }
@@ -106,7 +106,7 @@ class LoginFragment : Fragment() {
 
     private fun goToHome(user: FirebaseUser) {
         val intent = Intent(requireContext(), HomeActivity::class.java)
-        intent.putExtra("FirebaseUser", user)
+        intent.putExtra("FirebaseUserUID", user.uid)
         // TODO: sa mut signoutul in Home
         //gSignInClient.signOut()
         startActivity(intent)

@@ -4,26 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.MainActivity" >
+    android:background="@color/purple_200"
+    tools:context=".Home.HomeActivity" >
 
 
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:layout_width="330dp"
+        android:layout_height="400dp"
+        android:padding="15dp"
         app:type="one_day_picker"
         app:eventsEnabled="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:headerColor="@color/purple_200"
         app:headerLabelColor="#6B067C"
         app:selectionColor="@color/purple_200"
         app:selectionLabelColor="#6B067C"
         app:todayLabelColor="#6B067C"
-
+        app:abbreviationsBarColor="#CDB6E8"
+        android:background="@xml/rounded_corner"
         />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_container"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
