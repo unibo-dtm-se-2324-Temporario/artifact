@@ -14,13 +14,25 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".Home.ListEventsFragment">
 
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/exit_button"
+            android:src="@drawable/baseline_close_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@null"
+            android:paddingEnd="5dp"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No events for today"
             android:visibility="invisible"
+            android:id="@+id/no_events_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exit_button"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -30,7 +42,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exit_button"
             app:layout_constraintBottom_toBottomOf="parent"
             />
 

@@ -102,8 +102,6 @@ class LoginFragment : Fragment() {
     private fun goToHome(user: FirebaseUser) {
         val intent = Intent(requireContext(), HomeActivity::class.java)
         intent.putExtra("FirebaseUserUID", user.uid)
-        // TODO: sa mut signoutul in Home
-        //gSignInClient.signOut()
         startActivity(intent)
     }
 

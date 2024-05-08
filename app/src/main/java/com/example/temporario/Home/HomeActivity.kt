@@ -1,5 +1,6 @@
 package com.example.temporario.Home
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,10 @@ import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.listeners.OnCalendarDayClickListener
 import com.example.temporario.Events.Event
 import com.example.temporario.Events.EventsRepository
+import com.example.temporario.Login.MainActivity
 import com.example.temporario.R
 import com.example.temporario.databinding.ActivityHomeBinding
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
 class HomeActivity: AppCompatActivity() {
@@ -21,6 +24,7 @@ class HomeActivity: AppCompatActivity() {
     var eventsList: List<Event> = ArrayList()
     val repo = EventsRepository()
     private lateinit var userUID: String
+    val auth = FirebaseAuth.getInstance()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +46,13 @@ class HomeActivity: AppCompatActivity() {
                 .replace(R.id.fragment_container_create, fragment, null)
                 .commit()
             renderEvents(userUID)
+        }
+
+        binding.signoutButton.setOnClickListener {
+            auth.signOut()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }

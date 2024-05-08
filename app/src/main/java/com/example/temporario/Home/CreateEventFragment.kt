@@ -67,12 +67,20 @@ class CreateEventFragment : Fragment() {
                 } else if (it == 1) {
                     Toast.makeText(requireContext(), "Event created!", Toast.LENGTH_SHORT).show()
                 }
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .remove(this)
-                    .commit()
+                closeFragment()
             }
 
         }
+
+        binding.exitButton.setOnClickListener {
+            closeFragment()
+        }
+    }
+
+    private fun closeFragment() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .remove(this)
+            .commit()
     }
 
     private fun showDatePicker() {

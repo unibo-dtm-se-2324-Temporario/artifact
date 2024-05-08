@@ -48,10 +48,14 @@ class ListEventsFragment : Fragment() {
                 customAdapter.update(list)
             }
         } else {
-            // TODO: add some text
+            binding.noEventsText.visibility = View.VISIBLE
         }
 
-
+        binding.exitButton.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .remove(this)
+                .commit()
+        }
 
     }
 
