@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/add_event"
         android:text="Add a new event"
-        android:background="#80000000"
+        android:background="@color/soft_black"
         android:layout_marginTop="40dp"
         android:padding="3dp"
         android:textColor="@color/purple_200"

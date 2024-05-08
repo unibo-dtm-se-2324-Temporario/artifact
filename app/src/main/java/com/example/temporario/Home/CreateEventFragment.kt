@@ -1,5 +1,6 @@
 package com.example.temporario.Home
 
+import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -7,24 +8,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
+import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
-import com.applandeo.materialcalendarview.utils.SelectedDay
 import com.example.temporario.Events.EventsRepository
 import com.example.temporario.databinding.FragmentCreateEventBinding
 import java.time.LocalDateTime
 import java.util.Calendar
+import kotlin.properties.Delegates
 
 
 class CreateEventFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateEventBinding
     val repo = EventsRepository()
+    private lateinit var userUID: String
+    private var duration = 1
+
     @RequiresApi(Build.VERSION_CODES.O)
     private var selectedDate: LocalDateTime = LocalDateTime.now()
 
@@ -37,28 +40,51 @@ class CreateEventFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userUID = arguments?.getString("UID")!!
 
         binding.showDatePicker.setOnClickListener {
             showDatePicker()
         }
+        binding.showTimePicker.setOnClickListener {
+            showTimePicker()
+        }
+        binding.seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                duration = p1
+            }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
+        })
         binding.createEvent.setOnClickListener {
             val description = binding.addDescription.text.toString()
+            repo.addEventToDB(userUID, description, selectedDate, duration) {
+                if (it == 0) {
+                    Toast.makeText(requireContext(), "Oops. An error occurred!", Toast.LENGTH_SHORT).show()
+                } else if (it == 1) {
+                    Toast.makeText(requireContext(), "Event created!", Toast.LENGTH_SHORT).show()
+                }
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .remove(this)
+                    .commit()
+            }
+
         }
     }
 
     private fun showDatePicker() {
-        Log.d("aoleu", "AOLEU")
         val listener: OnSelectDateListener = object : OnSelectDateListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onSelect(calendar: List<Calendar>) {
                 val selectedDay = calendar[0].get(Calendar.DAY_OF_MONTH)
                 val selectedMonth = calendar[0].get(Calendar.MONTH) + 1
                 val selectedYear = calendar[0].get(Calendar.YEAR)
-                selectedDate.withDayOfMonth(selectedDay)
-                selectedDate.withMonth(selectedMonth)
-                selectedDate.withYear(selectedYear)
+                selectedDate = selectedDate.withDayOfMonth(selectedDay)
+                    .withMonth(selectedMonth)
+                    .withYear(selectedYear)
             }
         }
 
@@ -66,6 +92,18 @@ class CreateEventFragment : Fragment() {
             .pickerType(CalendarView.ONE_DAY_PICKER)
         val datePicker = builder.build()
         datePicker.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showTimePicker() {
+        val timePickerDialog = TimePickerDialog(requireContext(),
+            {
+                    _, i, i2 ->
+                selectedDate = selectedDate.withHour(i)
+                    .withMinute(i2)
+            }, 12, 12, true)
+
+        timePickerDialog.show()
     }
 
 

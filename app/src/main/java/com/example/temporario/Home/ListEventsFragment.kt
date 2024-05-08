@@ -46,19 +46,10 @@ class ListEventsFragment : Fragment() {
         if (!eventsOfUser?.isEmpty()!!) {
             repo.getEventsByDate(eventsOfUser!!, currentDay!!, currentMonth!!, currentYear!!) { list ->
                 customAdapter.update(list)
-//                Log.d("Nr of events", "$list.size")
             }
         }
 
-//        binding.addEvent.setOnClickListener {
-//
-//            val bundle = Bundle()
-//            bundle.putInt("Day", curr)
-//
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .add(R.id.fragment_container, CreateEventFragment::class.java, null)
-//                .commit()
-//        }
+
 
     }
 

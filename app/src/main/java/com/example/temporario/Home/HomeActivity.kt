@@ -2,6 +2,7 @@ package com.example.temporario.Home
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ class HomeActivity: AppCompatActivity() {
     private val calendarDays: MutableList<CalendarDay> = ArrayList()
     var eventsList: List<Event> = ArrayList()
     val repo = EventsRepository()
+    private lateinit var userUID: String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,15 +28,20 @@ class HomeActivity: AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userUID = intent.getStringExtra("FirebaseUserUID")
+        userUID = intent.getStringExtra("FirebaseUserUID")!!
         calendarView = binding.calendar
         renderEvents(userUID!!)
         setEventListeners()
 
         binding.addEvent.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("UID", userUID)
+            val fragment = CreateEventFragment()
+            fragment.arguments = bundle
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_create, CreateEventFragment::class.java, null)
+                .replace(R.id.fragment_container_create, fragment, null)
                 .commit()
+            renderEvents(userUID)
         }
 
     }
@@ -53,21 +60,15 @@ class HomeActivity: AppCompatActivity() {
                     eventDay.set(Calendar.YEAR, year)
                 }
                 if (month != null) {
-                    eventDay.set(Calendar.MONTH, month)
+                    eventDay.set(Calendar.MONTH, month - 1)
                 }
                 if (day != null) {
                     eventDay.set(Calendar.DAY_OF_MONTH, day)
-                    Toast.makeText(this, "$month", Toast.LENGTH_SHORT).show()
                 }
                 val caleDay = CalendarDay(eventDay)
                 caleDay.imageResource = R.drawable.ic_purple_circle_24
                 calendarDays.add(caleDay)
-                //Toast.makeText(this, "${calendarDays.size}", Toast.LENGTH_LONG).show()
             }
-
-            //Log.d("Calendar days", "$calendarDays")
-            //Toast.makeText(this, "${calendarDays.size}", Toast.LENGTH_LONG).show()
-
             calendarView.setCalendarDays(calendarDays)
 
         }
@@ -90,7 +91,7 @@ class HomeActivity: AppCompatActivity() {
                 fragment.arguments = bundle
 
                 supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment, null)
+                    .add(R.id.fragment_container_create, fragment, null)
                     .commit()
             }
         })

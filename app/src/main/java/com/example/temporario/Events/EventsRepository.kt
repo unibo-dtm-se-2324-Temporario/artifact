@@ -1,6 +1,7 @@
 package com.example.temporario.Events
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -83,9 +84,7 @@ class EventsRepository {
         val todayEvents = mutableListOf<Event>()
         for (event in events) {
             val startTime = event.startTime
-//            Log.d("Start time", "${startTime!!.dayOfMonth} ${startTime!!.month.value +1} ${startTime!!.year} ")
-//            Log.d("Ziua de azi", "$day $month $year")
-            if (startTime!!.dayOfMonth == day && startTime.month.value + 1 == month &&
+            if (startTime!!.dayOfMonth == day && startTime.month.value == month &&
                         startTime.year == year) {
                 todayEvents.add(event)
             }
@@ -100,18 +99,16 @@ class EventsRepository {
         eventsReference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 key = snapshot.childrenCount.toInt()
-            }
+                val event = Event(key, uid, description, startTime, duration)
 
-            override fun onCancelled(error: DatabaseError) {
-                //
+                eventsReference.child(key.toString()).setValue(event).addOnSuccessListener {
+                    callback(1)
+                }.addOnFailureListener {
+                    callback(0)
+                }
             }
+            override fun onCancelled(error: DatabaseError) {}
         })
-        val event = Event(key, uid, description, startTime, duration)
-        eventsReference.child(key.toString()).setValue(event).addOnSuccessListener {
-            callback(1)
-        }.addOnFailureListener {
-            callback(0)
-        }
     }
 
 

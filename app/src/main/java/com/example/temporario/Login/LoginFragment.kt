@@ -32,8 +32,6 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val user = firebaseAuth.currentUser
-        //Log.d("LoginFragment", "User: $user")
-        //Toast.makeText(context, "Hello ${user!!.displayName}", Toast.LENGTH_SHORT).show()
         if (user != null) {
             goToHome(user)
         }
