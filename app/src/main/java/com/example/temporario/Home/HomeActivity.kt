@@ -91,7 +91,7 @@ class HomeActivity: AppCompatActivity() {
                 fragment.arguments = bundle
 
                 supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container_create, fragment, null)
+                    .replace(R.id.fragment_container_create, fragment, null)
                     .commit()
             }
         })

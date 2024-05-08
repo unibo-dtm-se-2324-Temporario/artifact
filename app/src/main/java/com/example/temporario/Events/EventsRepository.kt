@@ -13,12 +13,13 @@ import java.time.LocalDateTime
 
 class EventsRepository {
 
-    private val database = Firebase.database.reference
+    //private val database = Firebase.database.reference
+    private val eventsDatabaseReference = Firebase.database.reference.child("Events")
 
     fun getAllEventsFromDB (callback: (List<Event>) -> Unit) {
         val eventsList = mutableListOf<Event>()
 
-        database.child("Events").addValueEventListener(object: ValueEventListener {
+        eventsDatabaseReference.addValueEventListener(object: ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(snapshot: DataSnapshot) {
                 eventsList.clear()
@@ -48,7 +49,7 @@ class EventsRepository {
     fun getEventsFromDB (uid: String, callback: (List<Event>) -> Unit) {
         val eventsList = mutableListOf<Event>()
 
-        database.child("Events").addValueEventListener(object: ValueEventListener {
+        eventsDatabaseReference.addValueEventListener(object: ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(snapshot: DataSnapshot) {
                 eventsList.clear()
@@ -94,14 +95,13 @@ class EventsRepository {
     }
     fun addEventToDB (uid: String, description: String, startTime: LocalDateTime, duration: Int,
                       callback: (Int) -> Unit) {
-        val eventsReference = database.child("Events")
         var key: Int = 0
-        eventsReference.addListenerForSingleValueEvent(object: ValueEventListener {
+        eventsDatabaseReference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 key = snapshot.childrenCount.toInt()
                 val event = Event(key, uid, description, startTime, duration)
 
-                eventsReference.child(key.toString()).setValue(event).addOnSuccessListener {
+                eventsDatabaseReference.child(key.toString()).setValue(event).addOnSuccessListener {
                     callback(1)
                 }.addOnFailureListener {
                     callback(0)
@@ -111,6 +111,13 @@ class EventsRepository {
         })
     }
 
+    fun deleteEventFromDB (key: String, callback: (Int) -> Unit) {
+        eventsDatabaseReference.child(key).removeValue().addOnSuccessListener {
+            callback(1)
+        }.addOnFailureListener {
+            callback(0)
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime(str: String): LocalDateTime {

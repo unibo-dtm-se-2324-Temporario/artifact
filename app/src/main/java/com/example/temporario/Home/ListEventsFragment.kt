@@ -47,6 +47,8 @@ class ListEventsFragment : Fragment() {
             repo.getEventsByDate(eventsOfUser!!, currentDay!!, currentMonth!!, currentYear!!) { list ->
                 customAdapter.update(list)
             }
+        } else {
+            // TODO: add some text
         }
 
 
