@@ -1,16 +1,24 @@
 package com.example.temporario.Events
 
 import android.content.Context
+import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.temporario.Home.EditEventFragment
 import com.example.temporario.Home.HomeActivity
+import com.example.temporario.Home.ListEventsFragment
+import com.example.temporario.R
 import com.example.temporario.databinding.EventRowLayoutBinding
 
 class CustomAdapter(
     private val context: Context,
+    private val fragmentManager: FragmentManager,
     private val onItemClick: (Event) -> Unit
 ): RecyclerView.Adapter<CustomAdapter.EventsHolder>() {
 
@@ -27,6 +35,7 @@ class CustomAdapter(
         return eventsList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: EventsHolder, position: Int) {
         val item = eventsList[position]
         holder.description.text = item.description
@@ -43,6 +52,26 @@ class CustomAdapter(
                 }
             }
         }
+        holder.editButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("Key", item.key)
+            bundle.putString("UID", item.userUID)
+            bundle.putString("Description", item.description)
+            bundle.putInt("Duration", item.duration ?: 1)
+            bundle.putInt("Day", item.startTime!!.dayOfMonth)
+            bundle.putInt("Month", item.startTime.monthValue)
+            bundle.putInt("Year", item.startTime.year)
+            bundle.putInt("Hour", item.startTime.hour)
+            bundle.putInt("Minutes", item.startTime.minute)
+
+            val fragment = EditEventFragment()
+            fragment.arguments = bundle
+
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_create, fragment, null)
+                .commit()
+            notifyDataSetChanged()
+        }
     }
 
     class EventsHolder(binding: EventRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
@@ -50,6 +79,7 @@ class CustomAdapter(
         var startTime = binding.eventStartTime
         var duration = binding.eventDuration
         var deleteButton = binding.deleteEvent
+        var editButton = binding.editEvent
     }
 
     fun update(list: List<Event>) {

@@ -38,7 +38,7 @@ class ListEventsFragment : Fragment() {
         val currentMonth = arguments?.getInt("Month")
         val currentYear = arguments?.getInt("Year")
 
-        customAdapter = CustomAdapter(requireContext()) { }
+        customAdapter = CustomAdapter(requireContext(), requireActivity().supportFragmentManager) { }
         binding.eventsList.adapter = customAdapter
 
         eventsOfUser = (activity as? HomeActivity)?.eventsList
@@ -46,9 +46,10 @@ class ListEventsFragment : Fragment() {
         if (!eventsOfUser?.isEmpty()!!) {
             repo.getEventsByDate(eventsOfUser!!, currentDay!!, currentMonth!!, currentYear!!) { list ->
                 customAdapter.update(list)
+                if (list.isEmpty()) {
+                    binding.noEventsText.visibility = View.VISIBLE
+                }
             }
-        } else {
-            binding.noEventsText.visibility = View.VISIBLE
         }
 
         binding.exitButton.setOnClickListener {

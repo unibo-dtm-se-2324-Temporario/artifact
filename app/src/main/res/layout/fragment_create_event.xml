@@ -38,7 +38,6 @@
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:fontFamily="sans-serif-condensed-medium"
             android:elevation="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +73,6 @@
                 android:background="@color/purple_200"
                 android:textColor="@color/white"
                 android:layout_marginStart="10dp"
-
                 />
 
         </LinearLayout>
@@ -113,6 +111,7 @@
                 android:id="@+id/instructions"
                 android:textSize="11sp"
                 android:text="Select duration in hours:"
+                android:layout_marginStart="5dp"
                 />
 
             <SeekBar

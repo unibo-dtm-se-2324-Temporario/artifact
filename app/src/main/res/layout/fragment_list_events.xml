@@ -12,7 +12,8 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="30dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".Home.ListEventsFragment">
+        tools:context=".Home.ListEventsFragment"
+        android:paddingEnd="10dp">
 
         <ImageButton
             android:layout_width="30dp"
@@ -29,10 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No events for today"
+            android:textColor="@color/pink"
             android:visibility="invisible"
             android:id="@+id/no_events_text"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp"
             app:layout_constraintTop_toBottomOf="@id/exit_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
         <androidx.recyclerview.widget.RecyclerView

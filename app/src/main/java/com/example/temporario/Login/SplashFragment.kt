@@ -26,8 +26,6 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //requireActivity().supportActionBar.hide()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         motionLayout = binding.constraintLayout

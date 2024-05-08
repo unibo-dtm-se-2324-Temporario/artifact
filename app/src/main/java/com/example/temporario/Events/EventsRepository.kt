@@ -119,6 +119,14 @@ class EventsRepository {
         }
     }
 
+    fun modifyEvent(key: Int, userUID: String, description: String,
+                    date: LocalDateTime, duration: Int, callback: (Int) -> Unit) {
+        val childReference = eventsDatabaseReference.child(key.toString())
+        childReference.child("description").setValue(description)
+        childReference.child("duration").setValue(duration)
+        childReference.child("startTime").setValue(date)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime(str: String): LocalDateTime {
         val jsonObj = JSONObject(str)

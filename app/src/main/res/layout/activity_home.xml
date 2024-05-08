@@ -43,7 +43,7 @@
         android:id="@+id/add_event"
         android:text="Add a new event"
         android:background="@color/soft_black"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:padding="3dp"
         android:textColor="@color/purple_200"
         />
