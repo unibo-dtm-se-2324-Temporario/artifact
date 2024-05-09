@@ -10,15 +10,13 @@ import androidx.annotation.RequiresApi
 import com.example.temporario.Events.CustomAdapter
 import com.example.temporario.Events.Event
 import com.example.temporario.Events.EventsRepository
-import com.example.temporario.Login.LoginFragment
-import com.example.temporario.R
 import com.example.temporario.databinding.FragmentListEventsBinding
 
 class ListEventsFragment : Fragment() {
 
     private lateinit var binding: FragmentListEventsBinding
     lateinit var customAdapter: CustomAdapter
-    val repo = EventsRepository()
+    private val repo = EventsRepository()
     var eventsOfUser: List<Event>? = ArrayList()
 
     override fun onCreateView(
@@ -38,7 +36,10 @@ class ListEventsFragment : Fragment() {
         val currentMonth = arguments?.getInt("Month")
         val currentYear = arguments?.getInt("Year")
 
-        customAdapter = CustomAdapter(requireContext(), requireActivity().supportFragmentManager) { }
+        customAdapter = CustomAdapter(requireContext(), requireActivity().supportFragmentManager) {item ->
+            (activity as? HomeActivity)!!.checkDay(item.startTime!!.dayOfMonth,
+                item.startTime.monthValue, item.startTime.year)
+        }
         binding.eventsList.adapter = customAdapter
 
         eventsOfUser = (activity as? HomeActivity)?.eventsList
@@ -47,7 +48,9 @@ class ListEventsFragment : Fragment() {
             repo.getEventsByDate(eventsOfUser!!, currentDay!!, currentMonth!!, currentYear!!) { list ->
                 customAdapter.update(list)
                 if (list.isEmpty()) {
+
                     binding.noEventsText.visibility = View.VISIBLE
+                    (activity as HomeActivity).getEvents((activity as HomeActivity).userUID)
                 }
             }
         }

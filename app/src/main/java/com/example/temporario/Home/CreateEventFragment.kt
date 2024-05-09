@@ -44,6 +44,10 @@ class CreateEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.title.text = "Create a new event!"
+        binding.addDescription.hint = "Description"
+        binding.createEvent.text = "Create"
+
         userUID = arguments?.getString("UID")!!
 
         binding.showDatePicker.setOnClickListener {

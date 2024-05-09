@@ -3,6 +3,8 @@ package com.example.temporario.Events
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.snap
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -46,7 +48,8 @@ class EventsRepository {
             }
         })
     }
-    fun getEventsFromDB (uid: String, callback: (List<Event>) -> Unit) {
+
+    fun getEventsFromDB (uid: String, callback: (MutableList<Event>) -> Unit) {
         val eventsList = mutableListOf<Event>()
 
         eventsDatabaseReference.addValueEventListener(object: ValueEventListener {
@@ -81,7 +84,7 @@ class EventsRepository {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun getEventsByDate (events: List<Event>, day:Int, month: Int, year: Int,
-                         callback: (List<Event>) -> Unit) {
+                         callback: (MutableList<Event>) -> Unit) {
         val todayEvents = mutableListOf<Event>()
         for (event in events) {
             val startTime = event.startTime
@@ -90,7 +93,6 @@ class EventsRepository {
                 todayEvents.add(event)
             }
         }
-
         callback(todayEvents)
     }
     fun addEventToDB (uid: String, description: String, startTime: LocalDateTime, duration: Int,
@@ -98,7 +100,7 @@ class EventsRepository {
         var key: Int = 0
         eventsDatabaseReference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                key = snapshot.childrenCount.toInt()
+                key = snapshot.childrenCount.toInt() + 1
                 val event = Event(key, uid, description, startTime, duration)
 
                 eventsDatabaseReference.child(key.toString()).setValue(event).addOnSuccessListener {
@@ -115,16 +117,35 @@ class EventsRepository {
         eventsDatabaseReference.child(key).removeValue().addOnSuccessListener {
             callback(1)
         }.addOnFailureListener {
-            callback(0)
+//            callback(0)
         }
     }
 
-    fun modifyEvent(key: Int, userUID: String, description: String,
-                    date: LocalDateTime, duration: Int, callback: (Int) -> Unit) {
+    fun editEvent(events: MutableList<Event>, key: Int, userUID: String, description: String,
+                    date: LocalDateTime, duration: Int, callback: (MutableList<Event>) -> Unit) {
         val childReference = eventsDatabaseReference.child(key.toString())
-        childReference.child("description").setValue(description)
-        childReference.child("duration").setValue(duration)
-        childReference.child("startTime").setValue(date)
+//        childReference.child("description").setValue(description)
+//        childReference.child("duration").setValue(duration)
+//        childReference.child("startTime").setValue(date)
+
+        childReference.updateChildren(
+            mapOf(
+                "description" to description,
+                "duration" to duration,
+                "startTime" to date
+            )
+        ).addOnSuccessListener {
+            childReference.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val index = events.indexOfFirst { it.key == key }
+                    val newEvent = Event(key, userUID, description, date, duration)
+                    events[index] = newEvent
+                    callback(events)
+                }
+                override fun onCancelled(error: DatabaseError) {}
+            })
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
