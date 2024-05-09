@@ -53,7 +53,6 @@ class LoginFragment : Fragment() {
             .requestIdToken(getString(R.string.SERVER_CLIENT_WEB))
             .requestEmail()
             .build()
-
         gSignInClient = GoogleSignIn.getClient(requireContext(), gSignInOptions)
 
         binding.clickToRegister.setOnClickListener {
@@ -64,6 +63,26 @@ class LoginFragment : Fragment() {
 
         googleSignIn.setOnClickListener {
             goToSignIn()
+        }
+
+        binding.loginButton.setOnClickListener {
+            val email = binding.email.text.toString()
+            val password = binding.password.text.toString()
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
+                    if (it.isSuccessful) {
+                        val intent = Intent(requireContext(), HomeActivity::class.java)
+                        intent.putExtra("FirebaseUserUID", firebaseAuth.currentUser!!.uid)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            } else {
+                Toast.makeText(requireContext(), "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

@@ -99,8 +99,6 @@ class EditEventFragment : Fragment() {
         binding.exitButton.setOnClickListener {
             closeFragment()
         }
-
-
     }
 
 

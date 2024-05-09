@@ -3,8 +3,6 @@ package com.example.temporario.Home
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarDay
@@ -46,7 +44,6 @@ class HomeActivity: AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_create, fragment, null)
                 .commit()
-            //renderEvents(userUID)
         }
 
         binding.signoutButton.setOnClickListener {
@@ -69,10 +66,8 @@ class HomeActivity: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun editEvent(key:Int, userUID: String, description: String, date: LocalDateTime, duration:Int,
                   lastDay: Int, lastMonth: Int, lastYear:Int) {
-        Log.d("Modificare", "$eventsList")
         repo.editEvent(eventsList, key, userUID, description, date, duration) { events ->
             eventsList = events
-            Log.d("Modificare", "$eventsList")
             checkDay(lastDay, lastMonth, lastYear)
         }
     }
@@ -80,15 +75,12 @@ class HomeActivity: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkDay(day: Int, month: Int, year: Int) {
         var todayEvents: MutableList<Event> = ArrayList()
-        Log.d("Modificare", "$day $month $year")
-        Log.d("Modificare", "$eventsList")
 
         repo.getEventsByDate(eventsList, day, month, year) {
             todayEvents = it
         }
 
         if (todayEvents.isEmpty()) {
-            Log.d("Modificare","e goala")
             calendarDays.removeAll { it.calendar.get(Calendar.DAY_OF_MONTH) == day
                     && it.calendar.get(Calendar.MONTH) == month - 1
                     && it.calendar.get(Calendar.YEAR) == year}
