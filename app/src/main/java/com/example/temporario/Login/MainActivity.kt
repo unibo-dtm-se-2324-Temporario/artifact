@@ -2,13 +2,12 @@ package com.example.temporario.Login
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.temporario.Home.InitializationFragment
 import com.example.temporario.R
 import com.example.temporario.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -15,9 +15,9 @@ import com.example.temporario.databinding.FragmentListEventsBinding
 class ListEventsFragment : Fragment() {
 
     private lateinit var binding: FragmentListEventsBinding
-    lateinit var customAdapter: CustomAdapter
+    private lateinit var customAdapter: CustomAdapter
     private val repo = EventsRepository()
-    var eventsOfUser: List<Event>? = ArrayList()
+    private var eventsOfUser: List<Event>? = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

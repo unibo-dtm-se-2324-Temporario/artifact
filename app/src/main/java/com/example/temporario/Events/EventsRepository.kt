@@ -1,10 +1,7 @@
 package com.example.temporario.Events
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.core.snap
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -26,11 +23,11 @@ class EventsRepository {
             override fun onDataChange(snapshot: DataSnapshot) {
                 eventsList.clear()
                 for (eventSnapshot in snapshot.children) {
-                    val key = eventSnapshot.key?.toInt() ?: -1
+                    val key = eventSnapshot.key ?: ""
                     val userUID = eventSnapshot.child("userUID").value?.toString() ?: ""
                     val startTime = eventSnapshot.child("startTime").value?.toString() ?: ""
                     val duration = (eventSnapshot.child("duration").value as? Long)?.toInt() ?: 1
-                    val description = eventSnapshot.child("description").value.toString() ?: ""
+                    val description = eventSnapshot.child("description").value.toString()
 
                     var startDate: LocalDateTime? = null
                     if (startTime != "") {
@@ -60,11 +57,10 @@ class EventsRepository {
 
                     val userUID = eventSnapshot.child("userUID").value?.toString() ?: ""
                     if (userUID == uid) {
-                        val key = eventSnapshot.key?.toInt() ?: -1
-
+                        val key = eventSnapshot.key ?: ""
                         val startTime = eventSnapshot.child("startTime").value?.toString() ?: ""
                         val duration = (eventSnapshot.child("duration").value as? Long)?.toInt() ?: 1
-                        val description = eventSnapshot.child("description").value.toString() ?: ""
+                        val description = eventSnapshot.child("description").value.toString()
 
                         var startDate: LocalDateTime? = null
                         if (startTime != "") {
@@ -97,20 +93,15 @@ class EventsRepository {
     }
     fun addEventToDB (uid: String, description: String, startTime: LocalDateTime, duration: Int,
                       callback: (Int) -> Unit) {
-        var key: Int = 0
-        eventsDatabaseReference.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                key = snapshot.childrenCount.toInt() + 1
-                val event = Event(key, uid, description, startTime, duration)
 
-                eventsDatabaseReference.child(key.toString()).setValue(event).addOnSuccessListener {
-                    callback(1)
-                }.addOnFailureListener {
-                    callback(0)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        val newChildReference = eventsDatabaseReference.push()
+        val key = newChildReference.key
+        val event = Event(key!!, uid, description, startTime, duration)
+        eventsDatabaseReference.child(key.toString()).setValue(event).addOnSuccessListener {
+            callback(1)
+        }.addOnFailureListener {
+            callback(0)
+        }
     }
 
     fun deleteEventFromDB (key: String, callback: (Int) -> Unit) {
@@ -121,12 +112,9 @@ class EventsRepository {
         }
     }
 
-    fun editEvent(events: MutableList<Event>, key: Int, userUID: String, description: String,
+    fun editEvent(events: MutableList<Event>, key: String, userUID: String, description: String,
                     date: LocalDateTime, duration: Int, callback: (MutableList<Event>) -> Unit) {
-        val childReference = eventsDatabaseReference.child(key.toString())
-//        childReference.child("description").setValue(description)
-//        childReference.child("duration").setValue(duration)
-//        childReference.child("startTime").setValue(date)
+        val childReference = eventsDatabaseReference.child(key)
 
         childReference.updateChildren(
             mapOf(

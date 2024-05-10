@@ -3,7 +3,6 @@ package com.example.temporario.Home
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +17,11 @@ import com.example.temporario.Events.EventsRepository
 import com.example.temporario.databinding.FragmentCreateEventBinding
 import java.time.LocalDateTime
 import java.util.Calendar
-import kotlin.properties.Delegates
-
 
 class CreateEventFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateEventBinding
-    val repo = EventsRepository()
+    private val repo = EventsRepository()
     private lateinit var userUID: String
     private var duration = 1
 
@@ -34,8 +31,7 @@ class CreateEventFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
         return binding.root
     }

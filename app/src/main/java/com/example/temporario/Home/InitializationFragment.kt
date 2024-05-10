@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 class InitializationFragment : Fragment() {
 
     private lateinit var database: DatabaseReference
-    var eventId = 0
+    private var eventId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,16 +39,14 @@ class InitializationFragment : Fragment() {
 
         database = Firebase.database.reference
 
-        for (i in 0..dates.size - 1) {
+        for (i in dates.indices) {
             val date = dates[i]
-            var userUID: String
-            if (i == 0) {
-                userUID = "ZGgBhrKmpyeppRUFZP24diupQGX2"
+            val userUID: String = if (i == 0) {
+                "ZGgBhrKmpyeppRUFZP24diupQGX2"
             } else {
-                userUID = "Y3Uh0J00ibaSbBWC4NGwxv3yo473"
+                "Y3Uh0J00ibaSbBWC4NGwxv3yo473"
             }
-            val event = Event(eventId, userUID,"event nr $eventId", date, i + 1)
-//            Log.d("Database reference", "${database.child("Events")}")
+            val event = Event(eventId.toString(), userUID,"event nr $eventId", date, i + 1)
             database.child("Events").child(eventId.toString()).setValue(event).addOnSuccessListener {
                 Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {

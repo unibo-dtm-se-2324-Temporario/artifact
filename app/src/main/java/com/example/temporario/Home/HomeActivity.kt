@@ -18,7 +18,7 @@ import java.util.Calendar
 
 class HomeActivity: AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    lateinit var calendarView: com.applandeo.materialcalendarview.CalendarView
+    private lateinit var calendarView: com.applandeo.materialcalendarview.CalendarView
     private val calendarDays: MutableList<CalendarDay> = ArrayList()
     var eventsList: MutableList<Event> = ArrayList()
     private val repo = EventsRepository()
@@ -64,7 +64,7 @@ class HomeActivity: AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun editEvent(key:Int, userUID: String, description: String, date: LocalDateTime, duration:Int,
+    fun editEvent(key:String, userUID: String, description: String, date: LocalDateTime, duration:Int,
                   lastDay: Int, lastMonth: Int, lastYear:Int) {
         repo.editEvent(eventsList, key, userUID, description, date, duration) { events ->
             eventsList = events

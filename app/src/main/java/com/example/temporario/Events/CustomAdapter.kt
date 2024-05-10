@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.temporario.Home.EditEventFragment
-import com.example.temporario.Home.HomeActivity
 import com.example.temporario.R
 import com.example.temporario.databinding.EventRowLayoutBinding
 
@@ -20,7 +19,7 @@ class CustomAdapter(
     private val onItemClick: (Event) -> Unit
 ): RecyclerView.Adapter<CustomAdapter.EventsHolder>() {
 
-    lateinit var binding: EventRowLayoutBinding
+    private lateinit var binding: EventRowLayoutBinding
     private val eventsList = mutableListOf<Event>()
     private val repo = EventsRepository()
 
@@ -40,7 +39,7 @@ class CustomAdapter(
         holder.startTime.text = "Start time: ".plus(item.startTime.toString())
         holder.duration.text = "Duration: ".plus(item.duration.toString()).plus("h")
         holder.deleteButton.setOnClickListener {
-            repo.deleteEventFromDB(item.key.toString()) {
+            repo.deleteEventFromDB(item.key) {
                 if (it == 1) {
                     eventsList.removeAt(position)
                     notifyItemRemoved(position)
@@ -54,7 +53,7 @@ class CustomAdapter(
 
         holder.editButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt("Key", item.key)
+            bundle.putString("Key", item.key)
             bundle.putString("UID", item.userUID)
             bundle.putString("Description", item.description)
             bundle.putInt("Duration", item.duration ?: 1)
@@ -81,7 +80,6 @@ class CustomAdapter(
         var duration = binding.eventDuration
         var deleteButton = binding.deleteEvent
         var editButton = binding.editEvent
-        var constraint = binding.constraintLayout
     }
 
     fun update(list: List<Event>) {

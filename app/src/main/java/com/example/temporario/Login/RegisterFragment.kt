@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.temporario.R
-import com.example.temporario.databinding.EventRowLayoutBinding
 import com.example.temporario.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : Fragment() {
 

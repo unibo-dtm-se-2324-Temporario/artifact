@@ -3,7 +3,6 @@ package com.example.temporario.Home
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +13,6 @@ import androidx.annotation.RequiresApi
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
-import com.example.temporario.Events.Event
-import com.example.temporario.Events.EventsRepository
 import com.example.temporario.databinding.FragmentCreateEventBinding
 import java.time.LocalDateTime
 import java.util.Calendar
@@ -23,22 +20,21 @@ import java.util.Calendar
 class EditEventFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateEventBinding
-    lateinit var description: String
+    private lateinit var description: String
     var duration = 0
-    var key = 0
+    private lateinit var key: String
     private lateinit var year: Number
     private lateinit var month: Number
     private lateinit var day: Number
-    lateinit var userUID: String
+    private lateinit var userUID: String
     @RequiresApi(Build.VERSION_CODES.O)
     private var selectedDate: LocalDateTime = LocalDateTime.now()
-    private val repo = EventsRepository()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            key = it.getInt("Key")
+            key = it.getString("Key").toString()
             userUID = it.getString("UID").toString()
             description = it.getString("Description").toString()
             duration = it.getInt("Duration")
@@ -116,12 +112,6 @@ class EditEventFragment : Fragment() {
                 selectedDate = selectedDate.withDayOfMonth(selectedDay)
                     .withMonth(selectedMonth)
                     .withYear(selectedYear)
-
-//                if (selectedDate.year != year || selectedDate.monthValue != month
-//                    || selectedDate.dayOfMonth != day) {
-//                    Log.d("Modificare", "mamama")
-//                    (activity as HomeActivity).checkDay(day as Int, month as Int, year as Int)
-//                }
             }
         }
 
