@@ -11,7 +11,7 @@
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendar"
         android:layout_width="330dp"
-        android:layout_height="400dp"
+        android:layout_height="450dp"
         android:padding="15dp"
         app:type="one_day_picker"
         app:eventsEnabled="true"

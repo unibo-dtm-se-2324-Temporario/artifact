@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 import java.util.Calendar
 
 class HomeActivity: AppCompatActivity() {
-    private lateinit var binding: ActivityHomeBinding
+    lateinit var binding: ActivityHomeBinding
     private lateinit var calendarView: com.applandeo.materialcalendarview.CalendarView
     private val calendarDays: MutableList<CalendarDay> = ArrayList()
     var eventsList: MutableList<Event> = ArrayList()

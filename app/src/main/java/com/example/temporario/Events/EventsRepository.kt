@@ -4,16 +4,18 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.json.JSONObject
 import java.time.LocalDateTime
 
-class EventsRepository {
-
-    //private val database = Firebase.database.reference
-    private val eventsDatabaseReference = Firebase.database.reference.child("Events")
+class EventsRepository(
+    var eventsDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Events")
+) {
+    //var eventsDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Events")
 
     fun getAllEventsFromDB (callback: (List<Event>) -> Unit) {
         val eventsList = mutableListOf<Event>()
