@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "728855260697",
+    "firebase_url": "https://temporario-1630e-default-rtdb.firebaseio.com",
+    "project_id": "temporario-1630e",
+    "storage_bucket": "temporario-1630e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728855260697:android:e52e05514fcfe1cb7c0488",
+        "android_client_info": {
+          "package_name": "com.example.temporario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728855260697-jq7n02j6eu3sscpk9k68rbc5dl0sjuks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.temporario",
+            "certificate_hash": "1b78870237850d06de90a6f3ae1ff490d665c0e4"
+          }
+        },
+        {
+          "client_id": "728855260697-hvtpirfsreih5bt48gif6lehpqif5ckc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGlgCjJVhXixCqNNrzawMVXLctRDBOWEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728855260697-da3b1ei9r83r5apbb7rlmih1knerngel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
