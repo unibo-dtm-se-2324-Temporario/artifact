@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 on:
-  push: 
+  push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -32,6 +32,11 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+
+    - name: Create AVD
+      run: |
+        echo "Creating AVD..."
+        echo no | $ANDROID_HOME/tools/bin/avdmanager create avd -n test -k "system-images;android-34;google_apis;x86" --force
 
     - name: Start Android Emulator
       run: |
