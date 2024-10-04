@@ -61,6 +61,11 @@ class EditEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // avoid action when clicking on the background
+        binding.fragmentCreateBackground.setOnTouchListener { _, _ ->
+            true
+        }
+
         binding.title.text = "Edit your event"
         binding.addDescription.hint = description
         binding.seekBar.progress = duration

@@ -14,6 +14,7 @@ import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
 import com.example.temporario.Events.EventsRepository
+import com.example.temporario.R
 import com.example.temporario.databinding.FragmentCreateEventBinding
 import java.time.LocalDateTime
 import java.util.Calendar
@@ -39,6 +40,11 @@ class CreateEventFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // avoid action when clicking on the background
+        binding.fragmentCreateBackground.setOnTouchListener { _, _ ->
+            true
+        }
 
         binding.title.text = "Create a new event!"
         binding.addDescription.hint = "Description"

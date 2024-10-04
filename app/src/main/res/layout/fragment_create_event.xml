@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/soft_black"
+    android:id="@+id/fragment_create_background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +46,7 @@
             />
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/frame"
@@ -55,16 +57,17 @@
             app:layout_constraintBottom_toTopOf="@id/add_description_layout">
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:id="@+id/show_date_picker"
                 android:text="Select date"
                 android:background="@color/purple_200"
                 android:textColor="@color/white"
-                android:layout_marginEnd="10dp"
-                />
+                android:layout_marginEnd="10dp" />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:id="@+id/show_time_picker"

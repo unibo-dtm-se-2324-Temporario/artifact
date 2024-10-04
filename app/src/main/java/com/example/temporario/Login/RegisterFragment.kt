@@ -44,6 +44,7 @@ class RegisterFragment : Fragment() {
                 if (password == retypePassword) {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
                         if (it.isSuccessful) {
+                            Toast.makeText(requireContext(), "Account created successfully!", Toast.LENGTH_SHORT).show()
                             val user = firebaseAuth.currentUser
 //                            val profileUpdates = UserProfileChangeRequest.Builder()
 //                                .setDisplayName(name)

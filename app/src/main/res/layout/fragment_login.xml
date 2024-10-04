@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:padding="15dp"
     android:background="#D1B5F3"
+    android:id="@+id/login_fragment_container"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -34,9 +35,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:hint="Email"
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="48dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -49,7 +49,7 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="48dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

@@ -23,7 +23,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    lateinit var binding: FragmentLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleSignIn: SignInButton
     private lateinit var gSignInOptions: GoogleSignInOptions

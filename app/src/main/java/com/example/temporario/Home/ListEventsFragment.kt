@@ -32,6 +32,11 @@ class ListEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // avoid action when clicking on the background
+        binding.fragmentListBackground.setOnTouchListener { _, _ ->
+            true
+        }
+
         val currentDay = arguments?.getInt("Day")
         val currentMonth = arguments?.getInt("Month")
         val currentYear = arguments?.getInt("Year")
