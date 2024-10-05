@@ -36,3 +36,6 @@ jobs:
       if: always()
       with:
         report-paths: 'build/test-results/**/*.xml'
+
+    - name: Generate lint report
+      run: ./gradlew lintDebug
