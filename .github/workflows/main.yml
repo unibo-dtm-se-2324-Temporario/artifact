@@ -28,4 +28,4 @@ jobs:
       with:
         api-token: ${{ secrets.EW_API_TOKEN }}
         app: app/build/outputs/apk/debug/app-debug.apk
-        test: app/build/outputs/apk/androidTest/app-debug-androidTest.apk
+        test: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
