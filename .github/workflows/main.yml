@@ -34,7 +34,6 @@ jobs:
       run: ./gradlew build
 
     - name: Run instrumentation tests
-      uses: reactivecircus/android-emulator-runner@v1
+      uses: emulator-wtf/run-tests@v0.9.10
       with:
-        api-level: '34'
         script: ./gradlew connectedAndroidTest
