@@ -71,4 +71,5 @@ jobs:
       with:
         tag: ${{ github.ref }}
         files: app/build/outputs/apk/release/app-release-unsigned.apk
-      env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
