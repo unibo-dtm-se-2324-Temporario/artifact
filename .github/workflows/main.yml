@@ -80,7 +80,6 @@ jobs:
     - name: Create release
       uses: softprops/action-gh-release@v1
       with:
-        name: Release ${{ github.ref }}
         tag: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

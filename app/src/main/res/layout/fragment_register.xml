@@ -64,7 +64,7 @@
         android:padding="2dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/retype_password"
-            android:hint="Password"
+            android:hint="Confirm password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
