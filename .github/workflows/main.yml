@@ -80,7 +80,14 @@ jobs:
     - name: Create release
       uses: softprops/action-gh-release@v1
       with:
+        name: Release ${{ github.ref }}
         tag: ${{ github.ref }}
-        files: app/build/outputs/apk/release/app-release-unsigned.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload APK to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ steps.sign_app.outputs.signedFile }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
