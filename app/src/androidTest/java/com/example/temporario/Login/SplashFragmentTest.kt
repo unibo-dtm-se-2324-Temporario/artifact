@@ -36,7 +36,7 @@ class SplashFragmentTest {
         assertTrue(elapsedTime >= splashScreenDuration)
 
         // Check if MainActivity is displayed after the splash duration
-        onView(withId(R.id.linearLayout)).check(matches(isDisplayed())) // Replace with your actual MainActivity layout ID
+        onView(withId(R.id.linearLayout)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -45,8 +45,7 @@ class SplashFragmentTest {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         // Wait for the splash screen transition to complete
-        // This might need to be adjusted depending on your transition duration
-        Thread.sleep(3000) // Simulate waiting time for the transition
+        Thread.sleep(3000)
 
         // Verify that the LoginFragment is now displayed
         activityScenario.onActivity { activity ->
@@ -54,8 +53,8 @@ class SplashFragmentTest {
             assertNotNull(loginFragment)
         }
 
-        // Optionally check if a view in the LoginFragment is displayed (replace with actual view ID)
-        onView(withId(R.id.login_fragment_container)) // Replace with a valid view ID in the LoginFragment
+        // Check if a view in the LoginFragment is displayed
+        onView(withId(R.id.login_fragment_container))
             .check(matches(isDisplayed()))
     }
 

@@ -33,18 +33,15 @@ class HomeActivityTest {
 
     @Test
     fun testCalendarIsDisplayed() {
-        // Launch the HomeActivity with the intent
-        //val scenario = ActivityScenario.launch<HomeActivity>(intent)
-
         // Verify that the calendar is displayed
-        onView(withId(R.id.calendar)) // Ensure to replace with the actual ID of your calendar view
+        onView(withId(R.id.calendar))
             .check(matches(isDisplayed()))
     }
 
     @Test
     fun testAddEventButtonClick() {
         // Click the addEvent button
-        onView(withId(R.id.add_event)) // Replace with your actual button ID
+        onView(withId(R.id.add_event))
             .perform(click())
 
         // Verify that CreateEventFragment is displayed
@@ -57,12 +54,9 @@ class HomeActivityTest {
 
     @Test
     fun testExitButtonRemovesFragment() {
-        // This simulates a click on the calendar day
-        // Replace with an actual day click simulation (you may need to adjust the view ID)
-        onView(withId(R.id.calendar)) // Replace with your CalendarView's ID
-            .perform(click()) // Simulate a click on a date (you may need a custom action depending on your UI)
+        onView(withId(R.id.calendar))
+            .perform(click())
 
-        // Now we need to ensure the ListEventsFragment is visible
         scenario.onActivity { activity ->
             // Check if ListEventsFragment is displayed
             val fragmentManager: FragmentManager = activity.supportFragmentManager
@@ -71,8 +65,8 @@ class HomeActivityTest {
             assert(fragment is ListEventsFragment) // Ensure that the fragment is indeed ListEventsFragment
         }
 
-        // Now we simulate clicking the exit button
-        onView(withId(R.id.exit_button)) // Replace with your actual exit button ID
+        // Simulate clicking the exit button
+        onView(withId(R.id.exit_button))
             .perform(click())
 
         // Verify that the fragment is removed from the FragmentManager

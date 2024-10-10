@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No events for today"
+            android:text="No events for the day"
             android:textColor="@color/pink"
             android:visibility="invisible"
             android:id="@+id/no_events_text"
